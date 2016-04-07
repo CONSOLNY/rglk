@@ -8,7 +8,7 @@ from first_app.models import *
 
 action_dict = dict()
 
-# TODO: Create file utils, move filters and checkers to utils.py, import utils to views, player template icon
+# TODO: Izmenit drop view, add FIGHTINGS!!!, dead
 def flag_filter(query_set, filter_set, predicate, flag_f):
     for ind in range(len(query_set)):
         for ind2 in range(len(filter_set)):
