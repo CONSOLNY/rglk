@@ -1,0 +1,114 @@
+<html>
+<head>
+	<style>
+		form {
+			display: inline;
+		}
+		.kvadratik {
+			width: 20px;
+			height: 20px;
+			border: 1px solid black;
+		}
+		.player {
+			background-image: url(https://40.media.tumblr.com/tumblr_mbqxszKpgV1r413h3o1_400.jpg);
+			background-size: 20px 20px;
+		}
+		.box {
+			background-image: url(https://pp.vk.me/c424225/v424225577/43b8/flob9eIGbKs.jpg);
+			background-size: 20px 20px;
+		}
+		.control_panel {
+			padding: 5px;
+			background-color: rgb(247, 247, 247);
+		}
+
+		a {
+			text-decoration: none;
+			color: rgb(255, 255, 255);
+		}
+
+		.hearth {
+			background-image: url(https://www.djangoproject.com/s/img/small-fundraising-heart.png);
+			background-size: 20px 20px;
+		}
+
+		button {
+			padding: 5px;
+			border: none;
+			text-align: center;
+			background-color: rgb(100, 100, 255);
+		}
+
+		button:hover {
+			background-color: rgb(100, 100, 200);
+		}
+	</style>
+</head>
+<body>
+<div class="control_panel">
+	<h2>Control panel</h2>
+	{% for k, v in actions.items %}
+	<button>
+		{{ v | safe }}
+	</button>
+	{% endfor %}
+</div>
+<div>
+<p>Your attack: {{ player.attack }} Your defense: {{ player.defense }} Your hp: {{ player.hp }} Your name: {{ player.name }}</p>
+	<table id="table">
+		{% for y in field %}
+		<tr>
+			{% for x in y %}
+			{% if x.type == "player" %}
+			<td class = "kvadratik player">
+			{% elif x.type == "mob" %}
+			<td class = "kvadratik hearth">
+			{% elif x.type == "inv" %}
+			<td class = "kvadratik box">
+			{% else %}
+			<td class = "kvadratik">
+			{% endif %}
+			</td>
+			{% endfor %}
+			
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+<div>
+<form id="InventoryForm" action="/game/equip/" method="post">
+{% csrf_token %}
+<p>Your items:</p> 
+<select name="Inventory" size=5> 
+{% for items in list_items %}
+<option value="{{ items.id }}">Item: {{ items.content.item_type }} Name: {{ items.content.item_name }} Stats: {{ items.content.item_stats }}</option>
+{% endfor %}
+</select>
+</form>
+</div>
+<div>
+<form id="EquippedForm" action="/game/unequip/" method="post">
+{% csrf_token %}
+<p>Equipped items:</p>
+<select name="Equipped" size=5>
+{% for items in equipped_items %}
+<option value="{{ items.slot.id }}">Item: {{items.slot.content.item_type }} Name: {{ items.slot.content.item_name }} Stats: {{ items.slot.content.item_stats }}</option>
+{% endfor %}
+</select>
+</form>
+</div>
+<div>
+{% if box_items != None %}
+<form id="BoxForm" action="/game/take/" method="post">
+{% csrf_token %}
+<p>Box items:</p>
+<select name="Box" size=5>
+{% for items in box_items %}
+<option value="{{ items.id }}">Item: {{ items.inv_content.item_type }} Name: {{ items.inv_content.item_name }} Stats: {{ items.inv_content.item_stats }}</option>
+{% endfor %}
+</select>
+</form>
+{% endif %}
+</div>
+</body>
+</html>

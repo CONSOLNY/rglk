@@ -1,0 +1,34 @@
+<html>
+ <head>
+  <title>Калькулятор</title>
+   <style type="text/css">
+    .parent {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+    }
+   </style>
+</head>
+<body>
+<div class="parent">
+  <form action="/res_calc/" method="POST">{% csrf_token %}
+  <p>Введите 1 число:<input name="a" type="number"></p> 
+  <p>Введите 2 число:<input name="b" type="number"></p>
+  <p>Выберите операцию:<select name="action" size="4">
+    <option value="+">Сложить</option>
+    <option value="-">Вычесть</option>
+    <option value="*">Умножить</option>
+    <option value="/">Разделить</option>
+   </select> 
+   </p>
+   <p><input type="submit" value="Вычислить"></p>
+ </form>
+</div>
+</body>
+</html>
