@@ -21,10 +21,12 @@ from first_app.views.take import *
 from first_app.views.drop import *
 from first_app.views.equip import *
 from first_app.views.unequip import *
+from first_app.views.inventory_dispetcher import choicer
 from first_app.views.landing import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^game/inventory_dispetcher/', choicer),
     url(r'^game/equip/', equip),
     url(r'^game/unequip/', unequip),
     url(r'^game/take/', take),
