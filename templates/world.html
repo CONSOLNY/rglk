@@ -76,7 +76,7 @@
 	</table>
 </div>
 <div>
-<form id="InventoryForm" action="/game/equip/" method="post">
+<form id="InventoryDispetcherForm" action="/game/inventory_dispetcher/" method="post">
 {% csrf_token %}
 <p>Your items:</p> 
 <select name="Inventory" size=5> 
@@ -84,6 +84,7 @@
 <option value="{{ items.id }}">Item: {{ items.content.item_type }} Name: {{ items.content.item_name }} Stats: {{ items.content.item_stats }}</option>
 {% endfor %}
 </select>
+</form>
 </form>
 </div>
 <div>
