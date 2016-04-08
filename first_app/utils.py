@@ -17,7 +17,6 @@ def flag_filter(query_set, filter_set, predicate, flag_f):
 
 def check_take_item(c, cs):
     can_take_item = InventoryCell.objects.filter(inv_coord=c.cell).exists()
-    print(can_take_item)
     if can_take_item:
         action_dict['take item'] = '<input type="submit" value="take item" form="BoxForm">'
 
@@ -25,14 +24,14 @@ def check_drop_item(c, cs):
     char = Character.objects.first()
     can_drop_item = InventoryCharacter.objects.filter(char=char).exists()
     if can_drop_item:
-        action_dict['drop item'] = '/game/drop/'
+        action_dict['drop item'] = '<input type="submit" name="choicer" value="drop item" form="InventoryDispetcherForm">'
 
 def check_equip_item(c, cs):
     char = Character.objects.first()
     slots = SlotCharacter.objects.all()
     for slot in slots:
         if slot.slot is None and InventoryCharacter.objects.filter(content__item_type=slot.slot_type).exists():
-            action_dict['equip item'] = '<input type="submit" value="equip item" form="InventoryForm">'
+            action_dict['equip item'] = '<input type="submit" name="choicer" value="equip item" form="InventoryDispetcherForm">'
 
 def check_unequip_item(c, cs):
     char = Character.objects.first()
@@ -69,7 +68,7 @@ def fill_dict(c, cs):
     check_take_item(c, cs)
     check_equip_item(c, cs)
     check_unequip_item(c, cs)
-#    check_drop_item(c, cs)
+    check_drop_item(c, cs)
 
 def fill_loot_list():
     inv = InventoryCharacter.objects.all()
