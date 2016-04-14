@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 from django.conf import settings
 
 # Create your models here.
@@ -57,3 +58,32 @@ class SlotCharacter(models.Model):
     slot_type = models.ForeignKey(LootType, verbose_name="Slot type")
     def __str__(self):
         return "{},{}".format(self.slot, self.slot_type)
+
+class PlayerManager(BaseUserManager):
+    def create_user(self, name, password=None):
+        user = self.model(name=name)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, name, password):
+        user = self.create_user(name, password=password)
+        user.is_admin = True
+        user.save(using=self._db)
+
+class Player(AbstractBaseUser):
+    name = models.CharField(verbose_name='Player name', max_length=20, unique=True)
+    char_list = models.ForeignKey(Character, null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    objects = PlayerManager()
+    USERNAME_FIELD = 'name'
+    def __str__(self):
+        return self.name
+    def has_perm(self, perm, obj=None):
+        return True
+    def has_module_perms(self, first_app):
+        return True
+    @property
+    def is_staff(self):
+        return self.is_admin
