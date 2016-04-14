@@ -10,7 +10,7 @@ from first_app.utils import *
 def draw_world(request):
     def pos_predicate(arg1, arg2):
         return arg1.x == arg2.cell.x and arg1.y == arg2.cell.y
-    
+
     def invpos_predicate(arg1, arg2):
         return arg1.x == arg2.inv_coord.x and arg1.y == arg2.inv_coord.y
 
@@ -22,9 +22,6 @@ def draw_world(request):
 
     def inv_flag(arg1):
         arg1.type = "inv"
-
-    def equip_flag(arg1):
-        arg1.type = "equip"
 
     cells = Cell.objects.all()
 
@@ -39,8 +36,9 @@ def draw_world(request):
     flag_filter(cells, inv, invpos_predicate, inv_flag)
 
     data = []
-    # TODO: добавить вьюхи чтобы одевать/снимать слот оружия/брони, выкидывать предметы, использовать item_type potions, FIGHTS!!!, dead
+    # TODO: использовать item_type potions, FIGHTS!!!, dead
     fill_dict(char[0], cells)
+    template_data_fill()
     for y in range(9):
         tmp = []
         for x in range(9):
@@ -48,11 +46,22 @@ def draw_world(request):
             tmp.append(cell)
         data.append(tmp)
 
+    request.session['actions'] = action_dict
+    request.session['template_data'] = template_data_dict
+    print(template_data_dict)
+    print(action_dict)
+    print(dict(request.session))
+
+    if 'attack' in request.session['actions']:
+        is_dead = mob_attack()
+        if is_dead:
+            return landing(request)
+
     return render(request, 'world.html', context={
         "field": data, 
         "player": char[0], 
         "actions": action_dict,
-        "list_items": fill_loot_list(),
-        "box_items": fill_box_loot_list(),
-        "equipped_items": equipped_list()
+        "list_items": template_data_dict['list_items'],
+        "box_items": template_data_dict['box_items'],
+        "equipped_items": template_data_dict['equipped_items'],
     })
