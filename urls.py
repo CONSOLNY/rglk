@@ -23,9 +23,11 @@ from first_app.views.equip import *
 from first_app.views.unequip import *
 from first_app.views.inventory_dispetcher import choicer
 from first_app.views.landing import *
+from first_app.views.attack import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^game/attack/', attack),
     url(r'^game/inventory_dispetcher/', choicer),
     url(r'^game/equip/', equip),
     url(r'^game/unequip/', unequip),
@@ -33,5 +35,5 @@ urlpatterns = [
     url(r'^game/drop/', drop),
     url(r'^game/move/', move),
     url(r'^game/', draw_world),
-    url(r'^', welcome),
+    url(r'^', landing),
 ]
