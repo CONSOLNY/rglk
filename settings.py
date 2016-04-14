@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'first_app',
 ]
 
+AUTH_USER_MODEL = 'first_app.Player'
+
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
