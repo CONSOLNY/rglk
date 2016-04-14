@@ -27,8 +27,8 @@
 			color: rgb(255, 255, 255);
 		}
 
-		.hearth {
-			background-image: url(https://www.djangoproject.com/s/img/small-fundraising-heart.png);
+		.mob {
+			background-image: url(https://40.media.tumblr.com/0f0a379ca2d5f57c9f1159522c763cc6/tumblr_mjpz8fWmWp1r413h3o1_400.jpg);
 			background-size: 20px 20px;
 		}
 
@@ -55,6 +55,11 @@
 </div>
 <div>
 <p>Your attack: {{ player.attack }} Your defense: {{ player.defense }} Your hp: {{ player.hp }} Your name: {{ player.name }}</p>
+{% if player.cell == mob.cell %}
+<p>Monster attack: {{ mob.attack }} Monster defense: {{ mob.defense }} Monster hp: {{ mob.hp }} Monster name: {{ mob.name }}</p>
+<p>Monster hitted you with {{ mob.attack }} damage</p>
+<p>Your resist is {{ player.defense }} damage</p>
+{% endif %}
 	<table id="table">
 		{% for y in field %}
 		<tr>
@@ -62,7 +67,7 @@
 			{% if x.type == "player" %}
 			<td class = "kvadratik player">
 			{% elif x.type == "mob" %}
-			<td class = "kvadratik hearth">
+			<td class = "kvadratik mob">
 			{% elif x.type == "inv" %}
 			<td class = "kvadratik box">
 			{% else %}
