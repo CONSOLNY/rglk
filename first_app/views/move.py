@@ -11,6 +11,7 @@ def move(request):
     dx = 0
     dy = 0 
     char = Character.objects.first()
+
     cells = Cell.objects.all()
     max_x = cells.aggregate(Max('x'))['x__max']
     max_y = cells.aggregate(Max('y'))['y__max']
@@ -34,5 +35,5 @@ def move(request):
     cell = cell[0]
     char.cell = cell
     char.save()
-    return draw_world(request)
 
+    return draw_world(request)
