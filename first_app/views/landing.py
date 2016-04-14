@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
-def welcome(request):
+def landing(request):
     return render(request, 'welcome.html')
